@@ -168,11 +168,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- 全身角色與裝備預覽區 -->
                 <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 flex flex-col items-center justify-center relative min-h-[350px]">
-                    <!-- 動態潛水員與裝備圖層 (改用 img 標籤精準定位) -->
+                    <!-- 動態潛水員與裝備圖層 (使用獨立圖檔) -->
                     <div id="character-container" class="relative w-48 h-[350px] transition-transform duration-300 drop-shadow-xl">
                         <!-- 深潛氣瓶 (在身體後方, z-index: 0) -->
-                        <div id="layer-tank" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-3xl" style="top: 15%; left: 35%; width: 45%; height: 50%; z-index: 0;">
-                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -left-[15%]" />
+                        <div id="layer-tank" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 15%; left: 35%; width: 45%; height: 50%; z-index: 0;">
+                            <img src="氣瓶.png" class="w-full h-full object-contain" />
                         </div>
 
                         <!-- 身體基底 SVG (防寒衣) -->
@@ -204,18 +204,18 @@
                         </svg>
 
                         <!-- 救生衣 -->
-                        <div id="layer-lifejacket" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-xl" style="top: 24%; left: 13%; width: 74%; height: 35%; z-index: 20;">
-                            <img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -left-[10%]" />
+                        <div id="layer-lifejacket" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 25%; left: 15%; width: 70%; height: 38%; z-index: 20;">
+                            <img src="救生衣.jpg" class="w-full h-full object-contain" />
                         </div>
 
                         <!-- 呼吸管 -->
-                        <div id="layer-snorkel" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer" style="top: 0%; left: 55%; width: 30%; height: 35%; z-index: 25; transform: rotate(-10deg);">
-                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -right-[15%]" />
+                        <div id="layer-snorkel" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: -2%; left: 52%; width: 35%; height: 35%; z-index: 25;">
+                            <img src="呼吸管.png" class="w-full h-full object-contain drop-shadow-md" />
                         </div>
 
                         <!-- BCD 背心與調節器 -->
-                        <div id="layer-bcd" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-xl" style="top: 24%; left: 15%; width: 70%; height: 38%; z-index: 20;">
-                            <img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -right-[10%]" />
+                        <div id="layer-bcd" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 24%; left: 15%; width: 70%; height: 40%; z-index: 20;">
+                            <img src="BCD背心.jpg" class="w-full h-full object-contain" />
                         </div>
 
                         <!-- 電腦錶 -->
@@ -225,13 +225,13 @@
                         </svg>
 
                         <!-- 面鏡 -->
-                        <div id="layer-mask" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-lg" style="top: 7%; left: 24%; width: 52%; height: 22%; z-index: 30;">
-                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -left-[15%]" />
+                        <div id="layer-mask" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 10%; left: 25%; width: 50%; height: 18%; z-index: 30;">
+                            <img src="面鏡.png" class="w-full h-full object-contain drop-shadow-md" />
                         </div>
 
                         <!-- 蛙鞋 -->
-                        <div id="layer-fins" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer" style="top: 75%; left: 20%; width: 60%; height: 28%; z-index: 20;">
-                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -right-[15%]" />
+                        <div id="layer-fins" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 75%; left: 20%; width: 60%; height: 28%; z-index: 20;">
+                            <img src="蛙鞋.jpg" class="w-full h-full object-contain" />
                         </div>
                     </div>
 
@@ -251,16 +251,16 @@
                         </div>
                         <p class="text-gray-600 text-sm mb-4">穿戴救生衣與面鏡，輕鬆在水面欣賞珊瑚礁與海龜。</p>
                         
-                        <!-- 裝備圖文標籤 (修復空白問題) -->
+                        <!-- 裝備圖文標籤 (使用獨立圖檔) -->
                         <div class="flex flex-wrap gap-2 mt-3">
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -left-[15%]" /></div> 面鏡
+                                <img src="面鏡.png" class="w-6 h-6 object-contain blend-layer" /> 面鏡
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -right-[15%]" /></div> 呼吸管
+                                <img src="呼吸管.png" class="w-6 h-6 object-contain blend-layer" /> 呼吸管
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -left-[10%]" /></div> 救生衣
+                                <img src="救生衣.jpg" class="w-6 h-6 object-contain blend-layer" /> 救生衣
                             </span>
                         </div>
                     </button>
@@ -273,13 +273,13 @@
                         </div>
                         <p class="text-gray-600 text-sm mb-4">背負氣瓶進入深水區，與魚群共游，探索壯觀的海洋地形。</p>
                         
-                        <!-- 裝備圖文標籤 (修復空白問題) -->
+                        <!-- 裝備圖文標籤 (使用獨立圖檔) -->
                         <div class="flex flex-wrap gap-2 mt-3">
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -left-[15%]" /></div> 氣瓶
+                                <img src="氣瓶.png" class="w-6 h-6 object-contain blend-layer" /> 氣瓶
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -right-[10%]" /></div> BCD背心
+                                <img src="BCD背心.jpg" class="w-6 h-6 object-contain blend-layer" /> BCD背心
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
                                 <div class="w-6 h-6 rounded flex items-center justify-center"><svg viewBox="0 0 24 24" class="w-5 h-5"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div> 電腦錶
@@ -316,8 +316,10 @@
         <!-- 魚類圖鑑 Modal (放大並加入圖片區塊與詳細資訊) -->
         <div id="fish-info-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] bg-white rounded-3xl p-6 shadow-2xl max-w-lg w-11/12 border-4 border-yellow-400 overflow-hidden">
             <div class="flex flex-col items-center">
-                <div class="w-full h-48 mb-4 rounded-xl overflow-hidden bg-blue-50 relative shadow-inner">
-                    <img id="info-image" src="" alt="海洋生物" class="w-full h-full object-cover">
+                <div class="w-full h-48 mb-4 rounded-xl overflow-hidden bg-blue-100 relative shadow-inner flex items-center justify-center">
+                    <!-- 加上 onerror 防呆，若圖片載入失敗會顯示提示字樣 -->
+                    <img id="info-image" src="" alt="海洋生物" class="w-full h-full object-cover" onerror="this.style.display='none'; document.getElementById('info-image-fallback').style.display='block';">
+                    <div id="info-image-fallback" class="hidden text-blue-800 font-bold tracking-widest text-lg">⚠️ 網路異常，圖片載入失敗</div>
                 </div>
                 <h3 id="info-name" class="text-2xl font-bold text-blue-900 mb-2">熱帶魚名稱</h3>
                 <div class="w-full max-h-[35vh] overflow-y-auto pr-2 mb-4 custom-scrollbar">
@@ -334,17 +336,14 @@
 </div>
 
 <script>
-    const img1 = "image_c30fbe.jpg";
-    const img2 = "image_c30fa4.jpg";
-
-    // 徹底修復：改用 img 標籤與 overflow-hidden，完美避開背景圖片裁切導致的留白問題！
+    // 直接載入 6 張獨立的裝備圖示
     const imgIcons = {
-        mask: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -left-[15%]" /></div>`,
-        snorkel: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -right-[15%]" /></div>`,
-        lifeJacket: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img2}" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -left-[10%]" /></div>`,
-        fins: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -right-[15%]" /></div>`,
-        tank: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -left-[15%]" /></div>`,
-        bcd: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img2}" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -right-[10%]" /></div>`,
+        mask: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="面鏡.png" class="w-full h-full object-contain blend-layer" /></div>`,
+        snorkel: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="呼吸管.png" class="w-full h-full object-contain blend-layer" /></div>`,
+        lifeJacket: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="救生衣.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
+        fins: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="蛙鞋.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
+        tank: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="氣瓶.png" class="w-full h-full object-contain blend-layer" /></div>`,
+        bcd: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="BCD背心.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
         computer: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm"><svg viewBox="0 0 24 24" class="w-7 h-7"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div>`
     };
 
@@ -367,41 +366,41 @@
         }
     };
 
-    // 升級生物資料庫：加入真實圖片網址與詳細的教育科普資訊
+    // 升級生物資料庫：全面替換為穩定的 Wikimedia Commons 維基共享資源圖片
     const fishes = [
         { 
             name: '克氏雙鋸魚 (小丑魚)', 
-            img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=500&q=80', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Clown_fish_in_the_Andaman_Reef.jpg/500px-Clown_fish_in_the_Andaman_Reef.jpg', 
             type: 'snorkeling', 
             desc: '【學名】Amphiprion clarkii\n【特徵】身體有三條明顯的白色條紋。屬於「母系社會」，群體中體型最大的是雌魚，若雌魚死亡，最大的雄魚會性轉變為雌魚。\n【生態】與海葵互利共生。海葵的刺絲胞能保護小丑魚免受掠食者攻擊，而小丑魚則會幫海葵清理殘渣並趕走吃海葵的魚類。' 
         },
         { 
             name: '揚幡蝴蝶魚 (人字蝶)', 
-            img: 'https://images.unsplash.com/photo-1524704796725-9fc3044a58b2?auto=format&fit=crop&w=500&q=80', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Chaetodon_auriga_in_Hurghada_1.JPG/500px-Chaetodon_auriga_in_Hurghada_1.JPG', 
             type: 'snorkeling', 
             desc: '【學名】Chaetodon auriga\n【特徵】台灣珊瑚礁最普遍的蝶魚。體側有黑色線條交叉如「人」字，背鰭後方有一個明顯的「假眼斑」。\n【生態】假眼斑的功能是為了欺騙掠食者，讓敵人誤以為那是頭部而攻擊錯誤方向，藉此增加逃生的機會。主要以珊瑚蟲和小型無脊椎動物為食。' 
         },
         { 
             name: '擬刺尾鯛 (藍倒吊)', 
-            img: 'https://images.unsplash.com/photo-1520697227442-f8ab51edba18?auto=format&fit=crop&w=500&q=80', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Paracanthurus_hepatus_%28Regal_Tang%29.jpg/500px-Paracanthurus_hepatus_%28Regal_Tang%29.jpg', 
             type: 'both', 
             desc: '【學名】Paracanthurus hepatus\n【特徵】因電影《海底總動員》的「多莉」而聞名。全身呈現鮮豔的湛藍色，搭配黑色紋路與亮黃色的尾鰭。\n【生態】屬於刺尾鯛科，牠們的尾柄兩側藏有如手術刀般鋒利的硬棘，遇到危險時會立起防禦，因此潛水時千萬不可隨意伸手觸摸，以免割傷。' 
         },
         { 
             name: '綠蠵龜', 
-            img: 'https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?auto=format&fit=crop&w=500&q=80', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Green_sea_turtle_in_shallow_water.jpg/500px-Green_sea_turtle_in_shallow_water.jpg', 
             type: 'both', 
             desc: '【學名】Chelonia mydas\n【保育級別】瀕危物種 (Endangered)\n【特徵】成龜以海藻、海草為主食，由於體內累積了葉綠素，使得其脂肪呈現微綠色，因而得名。\n【生態】小琉球是台灣最容易目擊綠蠵龜的地點。觀察時須嚴格保持 5 公尺以上的安全距離，絕對禁止觸摸、追逐或投餵，違者將面臨野生動物保育法的重罰。' 
         },
         { 
             name: '青點鸚哥魚', 
-            img: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&w=500&q=80', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Scarus_ghobban_Maldives.JPG/500px-Scarus_ghobban_Maldives.JPG', 
             type: 'scuba', 
             desc: '【學名】Scarus ghobban\n【特徵】牙齒癒合成像鸚鵡一樣的堅硬鳥喙狀。晚上睡覺時，會從口中吐出黏液結成透明的「防護繭」包覆全身，以防範掠食者和寄生蟲。\n【生態】珊瑚礁的「清道夫」。牠們會啃食附著在死珊瑚上的藻類，並將咬碎的珊瑚骨骼消化後排泄出來，這正是熱帶美麗白沙灘的重要來源之一。' 
         },
         { 
             name: '黑鰭礁鯊', 
-            img: 'https://images.unsplash.com/photo-1560275619-4662e36fa65c?auto=format&fit=crop&w=500&q=80', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Carcharhinus_melanopterus_1.jpg/500px-Carcharhinus_melanopterus_1.jpg', 
             type: 'scuba', 
             desc: '【學名】Carcharhinus melanopterus\n【特徵】各個魚鰭的末端都有明顯的黑色斑塊。體型偏小，通常體長不超過 1.6 公尺。\n【生態】偶爾可在蘭嶼或綠島的深水區見到。雖然名字裡有鯊魚，但牠們生性極度害羞且神經質，極少對人類造成威脅。牠們的存在是珊瑚礁生態系健康的指標。' 
         }
@@ -562,7 +561,7 @@
     function createFish(data) {
         const container = document.getElementById('fish-container');
         const fishEl = document.createElement('div');
-        fishEl.className = 'fish-swim flex items-center justify-center rounded-full overflow-hidden border-2 border-white/50 bg-white/20 backdrop-blur-sm';
+        fishEl.className = 'fish-swim flex items-center justify-center rounded-full overflow-hidden border-2 border-white/50 bg-white/20 backdrop-blur-sm shadow-md';
         
         // 設定生物圖片的大小 (隨機 80px ~ 130px)
         const size = Math.random() * 50 + 80;
@@ -573,6 +572,13 @@
         const imgEl = document.createElement('img');
         imgEl.src = data.img;
         imgEl.className = 'w-full h-full object-cover';
+        
+        // 若圖片真的載入失敗，隱藏圖片並顯示圖示
+        imgEl.onerror = function() {
+            this.style.display = 'none';
+            fishEl.innerHTML = '<span class="text-3xl">🐟</span>';
+        };
+        
         fishEl.appendChild(imgEl);
         
         // 隨機決定產生位置 (上到下)
@@ -596,7 +602,12 @@
     }
 
     function showFishInfo(data) {
-        document.getElementById('info-image').src = data.img;
+        // 重置圖片顯示狀態 (預防前一次破圖導致隱藏)
+        const imgEl = document.getElementById('info-image');
+        imgEl.style.display = 'block';
+        document.getElementById('info-image-fallback').style.display = 'none';
+        
+        imgEl.src = data.img;
         document.getElementById('info-name').innerText = data.name;
         document.getElementById('info-desc').innerText = data.desc;
         document.getElementById('fish-info-modal').classList.remove('hidden');
