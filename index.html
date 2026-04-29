@@ -75,6 +75,12 @@
         .blend-layer {
             mix-blend-mode: multiply;
         }
+
+        /* 針對觸控電視大螢幕的優化 */
+        @media (min-width: 1024px) {
+            .tv-scale-text { font-size: 1.25rem; line-height: 1.75rem; }
+            .tv-scale-title { font-size: 3rem; line-height: 1; }
+        }
     </style>
 </head>
 <body>
@@ -85,210 +91,134 @@
     <div id="main-scene" class="relative w-full h-full flex items-center justify-center bg-blue-500 transition-all duration-1000">
         <div class="absolute inset-0 bg-gradient-to-b from-blue-400 to-blue-700 opacity-90"></div>
         
-        <!-- 台灣地圖容器 -->
-        <div id="map-container" class="relative z-10 w-[85%] max-w-[450px] transition-transform duration-500 hover:scale-105">
-            <!-- 優先載入真實外部 SVG，如果失敗 (例如在線上沙盒預覽環境)，則觸發 onerror 切換顯示備用地圖 -->
-            <img src="image_c31000.png" alt="台灣地圖" class="w-full h-auto drop-shadow-2xl" id="primary-map" onerror="this.style.display='none'; document.getElementById('fallback-svg').style.display='block';" />
+        <!-- 台灣地圖容器 (針對電視與平板動態放大) -->
+        <div id="map-container" class="relative z-10 w-[90%] sm:w-[70%] md:w-[60%] lg:w-[45%] xl:w-[35%] h-[80vh] flex items-center justify-center transition-transform duration-500 hover:scale-105">
+            <!-- 使用乾淨的台灣地圖，並設定 object-contain 讓其隨螢幕高度完美縮放 -->
+            <img src="image_c31000.png" alt="台灣地圖" class="w-full h-full object-contain drop-shadow-2xl" id="primary-map" onerror="this.style.display='none'; document.getElementById('fallback-svg').style.display='block';" />
             
-            <!-- 備用的高畫質內嵌 SVG (精心繪製的真實台灣輪廓與離島，不再是米粒) -->
-            <svg id="fallback-svg" viewBox="0 0 1000 1000" class="w-full h-auto drop-shadow-2xl" style="display: none;">
-                <!-- 台灣本島 -->
+            <!-- 備用的高畫質內嵌 SVG -->
+            <svg id="fallback-svg" viewBox="0 0 1000 1000" class="absolute inset-0 w-full h-full drop-shadow-2xl object-contain" style="display: none;">
                 <path d="M 730,220 C 760,230 780,250 770,280 C 760,350 750,450 740,550 C 730,650 720,750 700,850 C 690,900 660,950 640,960 C 620,960 620,920 610,880 C 600,840 580,780 570,720 C 560,650 570,550 590,480 C 610,400 650,320 680,270 C 700,240 710,220 730,220 Z" fill="#6ba566" stroke="#4a7c46" stroke-width="3" />
-                <!-- 澎湖群島 -->
                 <circle cx="480" cy="580" r="15" fill="#6ba566" stroke="#4a7c46" stroke-width="2" />
                 <circle cx="450" cy="610" r="10" fill="#6ba566" stroke="#4a7c46" stroke-width="2" />
-                <!-- 金門 -->
                 <circle cx="200" cy="450" r="18" fill="#6ba566" stroke="#4a7c46" stroke-width="2" />
-                <!-- 馬祖 -->
                 <circle cx="400" cy="150" r="10" fill="#6ba566" stroke="#4a7c46" stroke-width="2" />
-                <!-- 綠島 -->
                 <path d="M 755,795 Q 765,795 765,805 Q 755,805 755,795 Z" fill="#6ba566" stroke="#4a7c46" stroke-width="2"/>
-                <!-- 蘭嶼 -->
                 <path d="M 775,915 Q 795,915 790,935 Q 770,935 775,915 Z" fill="#6ba566" stroke="#4a7c46" stroke-width="2"/>
-                <!-- 小琉球 -->
                 <circle cx="565" cy="840" r="5" fill="#6ba566" stroke="#4a7c46" stroke-width="1.5"/>
             </svg>
 
-            <!-- 潛點標記 (改回 HTML 絕對定位，不管載入哪張地圖都能精準對齊) -->
-            <!-- 東北角 -->
+            <!-- 潛點標記 (因為 map-container 改為 h-[80vh]，所以標記同樣以百分比定位，會隨地圖大小自動縮放) -->
             <div class="absolute flex flex-col items-center cursor-pointer group" style="top: 26%; left: 78%; transform: translate(-50%, -50%); z-index: 20;" onclick="selectSpot('東北角')">
-                <div class="w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full border-2 border-white shadow-lg group-hover:scale-150 transition-transform flex items-center justify-center">
+                <div class="w-6 h-6 lg:w-8 lg:h-8 bg-red-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform flex items-center justify-center">
                     <div class="w-full h-full bg-red-400 rounded-full animate-ping opacity-75"></div>
                 </div>
-                <span class="text-white font-bold text-xs md:text-sm bg-blue-900/80 px-2 py-0.5 rounded mt-1 whitespace-nowrap shadow-md">東北角</span>
+                <span class="text-white font-bold text-sm lg:text-lg bg-blue-900/80 px-3 py-1 rounded-lg mt-2 whitespace-nowrap shadow-md">東北角</span>
             </div>
             
-            <!-- 綠島 -->
             <div class="absolute flex flex-col items-center cursor-pointer group" style="top: 80%; left: 76%; transform: translate(-50%, -50%); z-index: 20;" onclick="selectSpot('綠島')">
-                <div class="w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full border-2 border-white shadow-lg group-hover:scale-150 transition-transform flex items-center justify-center">
+                <div class="w-6 h-6 lg:w-8 lg:h-8 bg-red-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform flex items-center justify-center">
                     <div class="w-full h-full bg-red-400 rounded-full animate-ping opacity-75"></div>
                 </div>
-                <span class="text-white font-bold text-xs md:text-sm bg-blue-900/80 px-2 py-0.5 rounded mt-1 whitespace-nowrap shadow-md">綠島</span>
+                <span class="text-white font-bold text-sm lg:text-lg bg-blue-900/80 px-3 py-1 rounded-lg mt-2 whitespace-nowrap shadow-md">綠島</span>
             </div>
             
-            <!-- 蘭嶼 -->
             <div class="absolute flex flex-col items-center cursor-pointer group" style="top: 92.5%; left: 78.5%; transform: translate(-50%, -50%); z-index: 20;" onclick="selectSpot('蘭嶼')">
-                <div class="w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full border-2 border-white shadow-lg group-hover:scale-150 transition-transform flex items-center justify-center">
+                <div class="w-6 h-6 lg:w-8 lg:h-8 bg-red-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform flex items-center justify-center">
                     <div class="w-full h-full bg-red-400 rounded-full animate-ping opacity-75"></div>
                 </div>
-                <span class="text-white font-bold text-xs md:text-sm bg-blue-900/80 px-2 py-0.5 rounded mt-1 whitespace-nowrap shadow-md">蘭嶼</span>
+                <span class="text-white font-bold text-sm lg:text-lg bg-blue-900/80 px-3 py-1 rounded-lg mt-2 whitespace-nowrap shadow-md">蘭嶼</span>
             </div>
             
-            <!-- 墾丁 -->
             <div class="absolute flex flex-col items-center cursor-pointer group" style="top: 94%; left: 64%; transform: translate(-50%, -50%); z-index: 20;" onclick="selectSpot('墾丁')">
-                <div class="w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full border-2 border-white shadow-lg group-hover:scale-150 transition-transform flex items-center justify-center">
+                <div class="w-6 h-6 lg:w-8 lg:h-8 bg-red-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform flex items-center justify-center">
                     <div class="w-full h-full bg-red-400 rounded-full animate-ping opacity-75"></div>
                 </div>
-                <span class="text-white font-bold text-xs md:text-sm bg-blue-900/80 px-2 py-0.5 rounded mt-1 whitespace-nowrap shadow-md">墾丁</span>
+                <span class="text-white font-bold text-sm lg:text-lg bg-blue-900/80 px-3 py-1 rounded-lg mt-2 whitespace-nowrap shadow-md">墾丁</span>
             </div>
             
-            <!-- 小琉球 -->
             <div class="absolute flex flex-col items-center cursor-pointer group" style="top: 84%; left: 56.5%; transform: translate(-50%, -50%); z-index: 20;" onclick="selectSpot('小琉球')">
-                <div class="w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full border-2 border-white shadow-lg group-hover:scale-150 transition-transform flex items-center justify-center">
+                <div class="w-6 h-6 lg:w-8 lg:h-8 bg-red-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform flex items-center justify-center">
                     <div class="w-full h-full bg-red-400 rounded-full animate-ping opacity-75"></div>
                 </div>
-                <span class="text-white font-bold text-xs md:text-sm bg-blue-900/80 px-2 py-0.5 rounded mt-1 whitespace-nowrap shadow-md">小琉球</span>
+                <span class="text-white font-bold text-sm lg:text-lg bg-blue-900/80 px-3 py-1 rounded-lg mt-2 whitespace-nowrap shadow-md">小琉球</span>
             </div>
         </div>
 
-        <div class="absolute top-10 text-center z-20">
-            <h1 class="text-4xl font-bold text-white mb-2 drop-shadow-md">台灣海洋教育地理資訊系統</h1>
-            <p class="text-blue-900 font-bold bg-white/90 px-4 py-1 rounded-full shadow-sm">請點選地圖上的紅點選擇潛水目的地</p>
+        <div class="absolute top-6 lg:top-12 text-center z-20">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 drop-shadow-lg tracking-wide">台灣海洋教育地理資訊系統</h1>
+            <p class="text-blue-900 font-bold bg-white/95 px-6 py-2 rounded-full shadow-lg text-lg lg:text-xl inline-block">請點選地圖上的紅點選擇潛水目的地</p>
         </div>
     </div>
 
-    <!-- 角色選擇與換裝 UI -->
-    <div id="gear-modal" class="hidden fixed inset-0 z-30 bg-black/50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-4xl w-full shadow-2xl modal-enter">
-            <div class="flex justify-between items-center mb-6">
-                <h2 id="selected-spot-name" class="text-3xl font-bold text-blue-600">準備前往：墾丁</h2>
-                <button onclick="closeGearModal()" class="text-gray-400 hover:text-gray-600 text-3xl font-bold">&times;</button>
+    <!-- 角色選擇與換裝 UI (適應大電視放大版面) -->
+    <div id="gear-modal" class="hidden fixed inset-0 z-30 bg-black/60 flex items-center justify-center p-4 lg:p-10">
+        <div class="bg-white rounded-3xl p-6 md:p-8 lg:p-12 max-w-6xl w-full shadow-2xl modal-enter max-h-[95vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center mb-6 lg:mb-10">
+                <h2 id="selected-spot-name" class="text-3xl lg:text-4xl font-bold text-blue-700">準備前往：墾丁</h2>
+                <button onclick="closeGearModal()" class="text-gray-400 hover:text-gray-600 text-4xl lg:text-5xl font-bold transition-colors">&times;</button>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- 全身角色與裝備預覽區 -->
-                <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 flex flex-col items-center justify-center relative min-h-[350px]">
-                    <!-- 動態潛水員與裝備圖層 (使用獨立圖檔) -->
-                    <div id="character-container" class="relative w-48 h-[350px] transition-transform duration-300 drop-shadow-xl">
-                        <!-- 深潛氣瓶 (在身體後方, z-index: 0) -->
-                        <div id="layer-tank" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 15%; left: 35%; width: 45%; height: 50%; z-index: 0;">
-                            <img src="氣瓶.png" class="w-full h-full object-contain" />
-                        </div>
-
-                        <!-- 身體基底 SVG (防寒衣) -->
-                        <svg id="character-body" viewBox="0 0 200 350" class="absolute inset-0 w-full h-full" style="z-index: 10;">
-                            <!-- 左手 -->
-                            <path d="M65,100 L30,160 L40,190" stroke="#fcd34d" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                            <path d="M65,100 L30,160" stroke="#1e293b" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                            <!-- 右手 -->
-                            <path d="M135,100 L170,160 L160,190" stroke="#fcd34d" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                            <path d="M135,100 L170,160" stroke="#1e293b" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                            <!-- 左腳 -->
-                            <path d="M85,180 L80,260 L70,300" stroke="#1e293b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                            <circle cx="70" cy="300" r="9" fill="#fcd34d" />
-                            <!-- 右腳 -->
-                            <path d="M115,180 L120,260 L130,300" stroke="#1e293b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                            <circle cx="130" cy="300" r="9" fill="#fcd34d" />
-                            <!-- 軀幹防寒衣 -->
-                            <rect x="60" y="85" width="80" height="110" rx="25" fill="#1e293b" />
-                            <path d="M70,85 Q100,105 130,85" stroke="#38bdf8" stroke-width="4" fill="none"/>
-                            <path d="M100,85 L100,195" stroke="#38bdf8" stroke-width="2" fill="none"/>
-                            <!-- 頭部 -->
-                            <circle cx="100" cy="50" r="30" fill="#fcd34d" />
-                            <!-- 頭髮 -->
-                            <path d="M65,45 Q100,-10 135,45 Q135,25 100,20 Q65,25 65,45 Z" fill="#451a03"/>
-                            <!-- 眼睛嘴巴 -->
-                            <circle cx="88" cy="45" r="3" fill="#1e293b"/>
-                            <circle cx="112" cy="45" r="3" fill="#1e293b"/>
-                            <path d="M92,55 Q100,62 108,55" stroke="#1e293b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        </svg>
-
-                        <!-- 救生衣 -->
-                        <div id="layer-lifejacket" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 25%; left: 15%; width: 70%; height: 38%; z-index: 20;">
-                            <img src="救生衣.jpg" class="w-full h-full object-contain" />
-                        </div>
-
-                        <!-- 呼吸管 -->
-                        <div id="layer-snorkel" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: -2%; left: 52%; width: 35%; height: 35%; z-index: 25;">
-                            <img src="呼吸管.png" class="w-full h-full object-contain drop-shadow-md" />
-                        </div>
-
-                        <!-- BCD 背心與調節器 -->
-                        <div id="layer-bcd" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 24%; left: 15%; width: 70%; height: 40%; z-index: 20;">
-                            <img src="BCD背心.jpg" class="w-full h-full object-contain" />
-                        </div>
-
-                        <!-- 電腦錶 -->
-                        <svg id="layer-computer" viewBox="0 0 200 350" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-300" style="z-index: 25;">
-                            <rect x="33" y="150" width="16" height="14" fill="#ef4444" rx="2" transform="rotate(-20 40 155)" />
-                            <rect x="35" y="152" width="12" height="10" fill="#10b981" rx="1" transform="rotate(-20 40 155)" />
-                        </svg>
-
-                        <!-- 面鏡 -->
-                        <div id="layer-mask" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 10%; left: 25%; width: 50%; height: 18%; z-index: 30;">
-                            <img src="面鏡.png" class="w-full h-full object-contain drop-shadow-md" />
-                        </div>
-
-                        <!-- 蛙鞋 -->
-                        <div id="layer-fins" class="absolute opacity-0 transition-opacity duration-300 blend-layer" style="top: 75%; left: 20%; width: 60%; height: 28%; z-index: 20;">
-                            <img src="蛙鞋.jpg" class="w-full h-full object-contain" />
-                        </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <!-- 角色大圖預覽區 (改用三張真實圖片切換) -->
+                <div class="bg-blue-50/50 border-2 border-blue-100 rounded-3xl p-4 flex flex-col items-center justify-center relative min-h-[400px] lg:min-h-[500px]">
+                    <div id="character-container" class="relative w-56 md:w-72 lg:w-96 h-auto transition-transform duration-300 drop-shadow-2xl">
+                        <!-- 一開始無裝備的人物 -->
+                        <img id="character-image" src="人物.jpg" class="w-full h-auto object-contain rounded-2xl" alt="潛水角色" />
                     </div>
 
-                    <!-- 動態產生的裝備清單 -->
-                    <div id="gear-list" class="flex flex-wrap gap-3 justify-center mt-6 w-full px-4">
-                        <p class="text-gray-400 text-sm font-bold">請於右側選擇潛水方式</p>
+                    <!-- 動態產生的裝備清單 (作為學習確認用) -->
+                    <div id="gear-list" class="flex flex-wrap gap-3 lg:gap-4 justify-center mt-8 w-full px-4">
+                        <p class="text-gray-400 text-lg lg:text-xl font-bold">請於右側選擇潛水方式</p>
                     </div>
                 </div>
                 
-                <!-- 選項區 -->
-                <div class="flex flex-col gap-4">
+                <!-- 選項區 (按鈕放大，適合觸控) -->
+                <div class="flex flex-col gap-6 lg:gap-8 justify-center">
                     <!-- 浮潛按鈕 -->
-                    <button onclick="pickDivingType('snorkeling')" class="group p-6 border-2 border-blue-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition-all text-left">
-                        <div class="text-xl font-bold text-blue-800 flex items-center gap-2 mb-2">
-                            <svg class="w-6 h-6" viewBox="0 0 24 24"><path d="M3 10 C3 7 21 7 21 10 L21 15 C21 18 12 18 12 14 C12 18 3 18 3 15 Z" fill="#0ea5e9" stroke="#0369a1" stroke-width="1.5"/></svg>
+                    <button onclick="pickDivingType('snorkeling')" class="group p-6 lg:p-8 border-4 border-blue-100 rounded-3xl hover:border-blue-400 hover:bg-blue-50 transition-all text-left shadow-sm hover:shadow-md">
+                        <div class="text-2xl lg:text-3xl font-bold text-blue-800 flex items-center gap-3 mb-3">
+                            <svg class="w-8 h-8 lg:w-10 lg:h-10" viewBox="0 0 24 24"><path d="M3 10 C3 7 21 7 21 10 L21 15 C21 18 12 18 12 14 C12 18 3 18 3 15 Z" fill="#0ea5e9" stroke="#0369a1" stroke-width="1.5"/></svg>
                             浮潛 (Snorkeling)
                         </div>
-                        <p class="text-gray-600 text-sm mb-4">穿戴救生衣與面鏡，輕鬆在水面欣賞珊瑚礁與海龜。</p>
+                        <p class="text-gray-600 tv-scale-text mb-4">穿戴救生衣與面鏡，輕鬆在水面欣賞珊瑚礁與海龜。</p>
                         
-                        <!-- 裝備圖文標籤 (使用獨立圖檔) -->
-                        <div class="flex flex-wrap gap-2 mt-3">
-                            <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <img src="面鏡.png" class="w-6 h-6 object-contain blend-layer" /> 面鏡
+                        <div class="flex flex-wrap gap-3 mt-4">
+                            <span class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl text-sm lg:text-base font-bold border border-gray-200 shadow-sm text-slate-700">
+                                <img src="面鏡.png" class="w-8 h-8 object-contain blend-layer" /> 面鏡
                             </span>
-                            <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <img src="呼吸管.png" class="w-6 h-6 object-contain blend-layer" /> 呼吸管
+                            <span class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl text-sm lg:text-base font-bold border border-gray-200 shadow-sm text-slate-700">
+                                <img src="呼吸管.png" class="w-8 h-8 object-contain blend-layer" /> 呼吸管
                             </span>
-                            <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <img src="救生衣.jpg" class="w-6 h-6 object-contain blend-layer" /> 救生衣
+                            <span class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl text-sm lg:text-base font-bold border border-gray-200 shadow-sm text-slate-700">
+                                <img src="救生衣.jpg" class="w-8 h-8 object-contain blend-layer" /> 救生衣
                             </span>
                         </div>
                     </button>
                     
                     <!-- 深潛按鈕 -->
-                    <button onclick="pickDivingType('scuba')" class="group p-6 border-2 border-indigo-200 rounded-2xl hover:border-indigo-500 hover:bg-indigo-50 transition-all text-left">
-                        <div class="text-xl font-bold text-indigo-800 flex items-center gap-2 mb-2">
-                            <svg viewBox="0 0 24 24" class="w-6 h-6"><rect x="7" y="6" width="10" height="15" rx="4" fill="#fbbf24" stroke="#b45309" stroke-width="1.5"/><rect x="9" y="3" width="6" height="3" fill="#9ca3af" stroke="#4b5563" stroke-width="1.5"/></svg>
+                    <button onclick="pickDivingType('scuba')" class="group p-6 lg:p-8 border-4 border-indigo-100 rounded-3xl hover:border-indigo-400 hover:bg-indigo-50 transition-all text-left shadow-sm hover:shadow-md">
+                        <div class="text-2xl lg:text-3xl font-bold text-indigo-800 flex items-center gap-3 mb-3">
+                            <svg viewBox="0 0 24 24" class="w-8 h-8 lg:w-10 lg:h-10"><rect x="7" y="6" width="10" height="15" rx="4" fill="#fbbf24" stroke="#b45309" stroke-width="1.5"/><rect x="9" y="3" width="6" height="3" fill="#9ca3af" stroke="#4b5563" stroke-width="1.5"/></svg>
                             深潛 (Scuba Diving)
                         </div>
-                        <p class="text-gray-600 text-sm mb-4">背負氣瓶進入深水區，與魚群共游，探索壯觀的海洋地形。</p>
+                        <p class="text-gray-600 tv-scale-text mb-4">背負氣瓶進入深水區，與魚群共游，探索壯觀的海洋地形。</p>
                         
-                        <!-- 裝備圖文標籤 (使用獨立圖檔) -->
-                        <div class="flex flex-wrap gap-2 mt-3">
-                            <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <img src="氣瓶.png" class="w-6 h-6 object-contain blend-layer" /> 氣瓶
+                        <div class="flex flex-wrap gap-3 mt-4">
+                            <span class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl text-sm lg:text-base font-bold border border-gray-200 shadow-sm text-slate-700">
+                                <img src="氣瓶.png" class="w-8 h-8 object-contain blend-layer" /> 氣瓶
                             </span>
-                            <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <img src="BCD背心.jpg" class="w-6 h-6 object-contain blend-layer" /> BCD背心
+                            <span class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl text-sm lg:text-base font-bold border border-gray-200 shadow-sm text-slate-700">
+                                <img src="BCD背心.jpg" class="w-8 h-8 object-contain blend-layer" /> BCD背心
                             </span>
-                            <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-6 h-6 rounded flex items-center justify-center"><svg viewBox="0 0 24 24" class="w-5 h-5"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div> 電腦錶
+                            <span class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl text-sm lg:text-base font-bold border border-gray-200 shadow-sm text-slate-700">
+                                <div class="w-8 h-8 rounded flex items-center justify-center"><svg viewBox="0 0 24 24" class="w-6 h-6"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div> 電腦錶
                             </span>
                         </div>
                     </button>
 
-                    <button id="jump-btn" disabled onclick="executeJump()" class="mt-4 w-full py-4 bg-gray-300 text-white rounded-xl font-bold text-xl cursor-not-allowed transition-all shadow-sm">
-                        著裝完畢，躍入海洋！
+                    <button id="jump-btn" disabled onclick="executeJump()" class="mt-4 lg:mt-6 w-full py-5 lg:py-6 bg-gray-300 text-white rounded-2xl font-bold text-2xl lg:text-3xl cursor-not-allowed transition-all shadow-md">
+                        請選擇潛水類型
                     </button>
                 </div>
             </div>
@@ -301,10 +231,11 @@
         <div class="absolute bottom-0 left-0 right-0 h-20 bg-blue-900/20 blur-xl"></div>
         
         <div class="absolute top-6 left-6 z-50 flex gap-4">
-            <button onclick="backToSurface()" class="bg-white/20 hover:bg-white/40 text-white px-6 py-2 rounded-full backdrop-blur-md border border-white/30 transition-all font-bold">
+        <div class="absolute top-6 lg:top-10 left-6 lg:left-10 z-50 flex gap-4">
+            <button onclick="backToSurface()" class="bg-white/20 hover:bg-white/40 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full backdrop-blur-md border border-white/30 transition-all font-bold text-lg lg:text-xl shadow-lg">
                 ← 返回水面
             </button>
-            <div class="bg-blue-950/40 text-white px-4 py-2 rounded-full backdrop-blur-md flex items-center gap-2 font-bold">
+            <div class="bg-blue-950/40 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full backdrop-blur-md flex items-center gap-3 font-bold text-lg lg:text-xl shadow-lg">
                 <span id="depth-text">準備中...</span>
             </div>
         </div>
@@ -313,55 +244,54 @@
             <!-- 魚會在這裡出現 -->
         </div>
 
-        <!-- 魚類圖鑑 Modal (放大並加入圖片區塊與詳細資訊) -->
-        <div id="fish-info-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] bg-white rounded-3xl p-6 shadow-2xl max-w-lg w-11/12 border-4 border-yellow-400 overflow-hidden">
+        <!-- 魚類圖鑑 Modal -->
+        <div id="fish-info-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] bg-white rounded-3xl p-8 lg:p-10 shadow-2xl max-w-2xl w-11/12 border-4 border-yellow-400 overflow-hidden">
             <div class="flex flex-col items-center">
-                <div class="w-full h-48 mb-4 rounded-xl overflow-hidden bg-blue-100 relative shadow-inner flex items-center justify-center">
-                    <!-- 加上 onerror 防呆，若圖片載入失敗會顯示提示字樣 -->
+                <div class="w-full h-56 lg:h-72 mb-6 rounded-2xl overflow-hidden bg-blue-100 relative shadow-inner flex items-center justify-center">
                     <img id="info-image" src="" alt="海洋生物" class="w-full h-full object-cover" onerror="this.style.display='none'; document.getElementById('info-image-fallback').style.display='block';">
-                    <div id="info-image-fallback" class="hidden text-blue-800 font-bold tracking-widest text-lg">⚠️ 網路異常，圖片載入失敗</div>
+                    <div id="info-image-fallback" class="hidden text-blue-800 font-bold tracking-widest text-xl">⚠️ 網路異常，圖片載入失敗</div>
                 </div>
-                <h3 id="info-name" class="text-2xl font-bold text-blue-900 mb-2">熱帶魚名稱</h3>
-                <div class="w-full max-h-[35vh] overflow-y-auto pr-2 mb-4 custom-scrollbar">
-                    <p id="info-desc" class="text-gray-700 leading-relaxed text-left text-sm md:text-base whitespace-pre-line">描述資訊...</p>
+                <h3 id="info-name" class="text-3xl lg:text-4xl font-bold text-blue-900 mb-4">熱帶魚名稱</h3>
+                <div class="w-full max-h-[35vh] overflow-y-auto pr-4 mb-6 custom-scrollbar">
+                    <p id="info-desc" class="text-gray-700 leading-relaxed text-left text-lg lg:text-xl whitespace-pre-line">描述資訊...</p>
                 </div>
-                <button onclick="closeFishInfo()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 transition-colors text-white rounded-xl font-bold text-lg shadow-md">了解更多 (關閉圖鑑)</button>
+                <button onclick="closeFishInfo()" class="w-full py-4 lg:py-5 bg-blue-600 hover:bg-blue-700 transition-colors text-white rounded-2xl font-bold text-xl lg:text-2xl shadow-lg">了解更多 (關閉圖鑑)</button>
             </div>
         </div>
     </div>
 
-    <!-- 跳水動畫用角色容器 (由 JS 動態塞入 SVG) -->
-    <div id="jump-avatar" class="hidden absolute z-50 pointer-events-none w-32 h-auto"></div>
+    <!-- 跳水動畫用角色容器 -->
+    <div id="jump-avatar" class="hidden absolute z-50 pointer-events-none w-48 md:w-64 lg:w-80 h-auto"></div>
 
 </div>
 
 <script>
     // 直接載入 6 張獨立的裝備圖示
     const imgIcons = {
-        mask: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="面鏡.png" class="w-full h-full object-contain blend-layer" /></div>`,
-        snorkel: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="呼吸管.png" class="w-full h-full object-contain blend-layer" /></div>`,
-        lifeJacket: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="救生衣.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
-        fins: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="蛙鞋.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
-        tank: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="氣瓶.png" class="w-full h-full object-contain blend-layer" /></div>`,
-        bcd: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1"><img src="BCD背心.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
-        computer: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm"><svg viewBox="0 0 24 24" class="w-7 h-7"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div>`
+        mask: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="面鏡.png" class="w-full h-full object-contain blend-layer" /></div>`,
+        snorkel: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="呼吸管.png" class="w-full h-full object-contain blend-layer" /></div>`,
+        lifeJacket: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="救生衣.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
+        fins: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="蛙鞋.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
+        tank: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="氣瓶.png" class="w-full h-full object-contain blend-layer" /></div>`,
+        bcd: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="BCD背心.jpg" class="w-full h-full object-contain blend-layer" /></div>`,
+        computer: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm"><svg viewBox="0 0 24 24" class="w-8 h-8"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div>`
     };
 
     const gearConfigs = {
         'snorkeling': {
             items: [
-                { id: 'mask', name: '面鏡', icon: imgIcons.mask, layers: ['layer-mask'] },
-                { id: 'snorkel', name: '呼吸管', icon: imgIcons.snorkel, layers: ['layer-snorkel'] },
-                { id: 'lifejacket', name: '救生衣', icon: imgIcons.lifeJacket, layers: ['layer-lifejacket'] },
-                { id: 'fins', name: '蛙鞋', icon: imgIcons.fins, layers: ['layer-fins'] }
+                { id: 'mask', name: '面鏡', icon: imgIcons.mask },
+                { id: 'snorkel', name: '呼吸管', icon: imgIcons.snorkel },
+                { id: 'lifejacket', name: '救生衣', icon: imgIcons.lifeJacket },
+                { id: 'fins', name: '蛙鞋', icon: imgIcons.fins }
             ]
         },
         'scuba': {
             items: [
-                { id: 'tank', name: '氣瓶', icon: imgIcons.tank, layers: ['layer-tank'] },
-                { id: 'bcd', name: 'BCD背心', icon: imgIcons.bcd, layers: ['layer-bcd'] },
-                { id: 'computer', name: '電腦錶', icon: imgIcons.computer, layers: ['layer-computer'] },
-                { id: 'maskfins', name: '面鏡與蛙鞋', icon: imgIcons.mask, layers: ['layer-mask', 'layer-fins'] }
+                { id: 'tank', name: '氣瓶', icon: imgIcons.tank },
+                { id: 'bcd', name: 'BCD背心', icon: imgIcons.bcd },
+                { id: 'computer', name: '電腦錶', icon: imgIcons.computer },
+                { id: 'maskfins', name: '面鏡與蛙鞋', icon: imgIcons.mask }
             ]
         }
     };
@@ -408,7 +338,7 @@
 
     let currentSpot = '';
     let currentDivingType = '';
-    let equippedItems = new Set(); // 記錄目前已經穿上的裝備
+    let equippedItems = new Set(); // 記錄目前已經確認的裝備
 
     function selectSpot(name) {
         currentSpot = name;
@@ -425,11 +355,10 @@
         currentDivingType = '';
         equippedItems.clear();
         
-        // 隱藏所有 SVG 裝備圖層
-        const layers = ['layer-tank', 'layer-lifejacket', 'layer-snorkel', 'layer-bcd', 'layer-computer', 'layer-mask', 'layer-fins'];
-        layers.forEach(id => document.getElementById(id).classList.add('opacity-0'));
+        // 重置為一開始沒有裝備的人物圖片
+        document.getElementById('character-image').src = '人物.jpg';
 
-        document.getElementById('gear-list').innerHTML = '<p class="text-gray-400 text-sm font-bold">請於右側選擇潛水方式</p>';
+        document.getElementById('gear-list').innerHTML = '<p class="text-gray-400 text-lg lg:text-xl font-bold">請於右側選擇潛水方式</p>';
         
         const btn = document.getElementById('jump-btn');
         btn.disabled = true;
@@ -442,53 +371,48 @@
         currentDivingType = type;
         equippedItems.clear();
 
-        // 1. 隱藏角色身上的所有裝備
-        const allLayers = ['layer-tank', 'layer-lifejacket', 'layer-snorkel', 'layer-bcd', 'layer-computer', 'layer-mask', 'layer-fins'];
-        allLayers.forEach(id => document.getElementById(id).classList.add('opacity-0'));
+        // ** 重點更新：點選潛水類型後，人物直接切換為對應的精美全身圖片 **
+        if (type === 'snorkeling') {
+            document.getElementById('character-image').src = '浮潛.jpg';
+        } else if (type === 'scuba') {
+            document.getElementById('character-image').src = '深潛.jpg';
+        }
 
-        // 2. 渲染角色下方可點擊的裝備按鈕清單 (調整了大小和間距)
+        // 渲染角色下方的「裝備確認清單」，讓學生學習對應部位
         const gearList = document.getElementById('gear-list');
         const config = gearConfigs[type];
         
         let html = '';
         config.items.forEach(item => {
             html += `
-            <button id="btn-equip-${item.id}" onclick="equipItem('${item.id}')" class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl text-base font-bold shadow-md border-2 border-gray-200 text-slate-700 transition-all hover:scale-105 hover:border-blue-400">
+            <button id="btn-equip-${item.id}" onclick="equipItem('${item.id}')" class="flex items-center gap-3 lg:gap-4 bg-white px-4 lg:px-6 py-2 lg:py-3 rounded-2xl text-base lg:text-xl font-bold shadow-md border-4 border-gray-100 text-slate-700 transition-all hover:scale-105 hover:border-blue-400">
                 ${item.icon}
                 <span>${item.name}</span>
-                <span class="check-icon hidden text-green-600 ml-1 text-xl">✔</span>
+                <span class="check-icon hidden text-green-600 ml-2 text-2xl lg:text-3xl">✔</span>
             </button>`;
         });
         gearList.innerHTML = html;
         
-        // 3. 停用出發按鈕，提示需點擊裝備
+        // 停用出發按鈕，提示需點擊裝備以確認學習
         const btn = document.getElementById('jump-btn');
         btn.disabled = true;
         btn.classList.add('bg-gray-300', 'cursor-not-allowed');
         btn.classList.remove('bg-green-500', 'hover:bg-green-600', 'cursor-pointer', 'animate-pulse');
-        btn.innerText = `請點擊下方圖示穿戴裝備`;
+        btn.innerText = `請點選下方圖示確認裝備清單`;
     }
 
     function equipItem(itemId) {
-        if (equippedItems.has(itemId)) return; // 已經穿戴過就不再重複執行
+        if (equippedItems.has(itemId)) return;
 
         equippedItems.add(itemId);
         
-        // 找出這項裝備的設定檔
-        const itemConfig = gearConfigs[currentDivingType].items.find(i => i.id === itemId);
-
-        // 1. 顯示人物身上對應的 SVG 圖層
-        itemConfig.layers.forEach(layerId => {
-            document.getElementById(layerId).classList.remove('opacity-0');
-        });
-
-        // 2. 改變按鈕外觀，標示已穿戴
+        // 改變按鈕外觀，標示已確認
         const btn = document.getElementById(`btn-equip-${itemId}`);
-        btn.classList.remove('bg-white', 'border-gray-200', 'text-slate-700', 'hover:scale-105', 'hover:border-blue-400');
+        btn.classList.remove('bg-white', 'border-gray-100', 'text-slate-700', 'hover:scale-105', 'hover:border-blue-400');
         btn.classList.add('bg-green-50', 'border-green-500', 'text-green-800');
         btn.querySelector('.check-icon').classList.remove('hidden');
 
-        // 3. 檢查是否所有裝備都已穿戴完畢
+        // 檢查是否所有裝備都已確認完畢
         if (equippedItems.size === gearConfigs[currentDivingType].items.length) {
             const jumpBtn = document.getElementById('jump-btn');
             jumpBtn.disabled = false;
@@ -503,15 +427,14 @@
         
         const jumpContainer = document.getElementById('jump-avatar');
         
-        // 複製現在已經穿好裝備的角色容器
-        const charContainer = document.getElementById('character-container').cloneNode(true);
-        charContainer.removeAttribute('id'); // 避免 ID 重複
+        // 複製現在的人物圖片到跳水動畫層
+        const charImage = document.getElementById('character-image').cloneNode(true);
+        charImage.removeAttribute('id');
         
         jumpContainer.innerHTML = '';
-        jumpContainer.appendChild(charContainer);
+        jumpContainer.appendChild(charImage);
         
         jumpContainer.classList.remove('hidden');
-        // 調整起跳位置以配合新的拋物線動畫
         jumpContainer.style.left = '35%';
         jumpContainer.style.top = '30%';
         jumpContainer.classList.add('character-jump');
@@ -563,8 +486,8 @@
         const fishEl = document.createElement('div');
         fishEl.className = 'fish-swim flex items-center justify-center rounded-full overflow-hidden border-2 border-white/50 bg-white/20 backdrop-blur-sm shadow-md';
         
-        // 設定生物圖片的大小 (隨機 80px ~ 130px)
-        const size = Math.random() * 50 + 80;
+        // 設定生物圖片的大小 (配合大螢幕，基礎尺寸放大為 100px ~ 180px)
+        const size = Math.random() * 80 + 100;
         fishEl.style.width = `${size}px`;
         fishEl.style.height = `${size}px`;
         
