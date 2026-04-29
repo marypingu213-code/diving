@@ -275,15 +275,15 @@
 </div>
 
 <script>
-    // 裝備圖示副檔名全面修正為 .png，並對應正確的裝備
+    // 裝備圖示副檔名全面修正為 .png，並將按鈕尺寸大幅放大以看清裝備細節
     const imgIcons = {
-        mask: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="面鏡.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:1.5rem;">🥽</span></div>`,
-        snorkel: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="呼吸管.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:1.5rem;">🎋</span></div>`,
-        lifeJacket: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="救生衣.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:1.5rem;">🦺</span></div>`,
-        fins: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="蛙鞋.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:1.5rem;">🧜</span></div>`,
-        tank: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="氣瓶.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:1.5rem;">🛢️</span></div>`,
-        bcd: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm p-1.5"><img src="BCD背心.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:1.5rem;">🎒</span></div>`,
-        computer: `<div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm"><svg viewBox="0 0 24 24" class="w-8 h-8"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div>`
+        mask: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner p-2 lg:p-3"><img src="面鏡.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:2.5rem;">🥽</span></div>`,
+        snorkel: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner p-2 lg:p-3"><img src="呼吸管.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:2.5rem;">🎋</span></div>`,
+        lifeJacket: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner p-2 lg:p-3"><img src="救生衣.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:2.5rem;">🦺</span></div>`,
+        fins: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner p-2 lg:p-3"><img src="蛙鞋.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:2.5rem;">🧜</span></div>`,
+        tank: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner p-2 lg:p-3"><img src="氣瓶.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:2.5rem;">🛢️</span></div>`,
+        bcd: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner p-2 lg:p-3"><img src="BCD背心.png" class="w-full h-full object-contain blend-layer" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none; font-size:2.5rem;">🎒</span></div>`,
+        computer: `<div class="w-20 h-20 lg:w-28 lg:h-28 rounded-2xl border-2 border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-inner"><svg viewBox="0 0 24 24" class="w-12 h-12 lg:w-16 lg:h-16"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div>`
     };
 
     const gearConfigs = {
@@ -305,8 +305,9 @@
         }
     };
 
-    // 升級生物資料庫：全面替換為穩定的 Wikimedia Commons 維基共享資源圖片
+    // 升級生物資料庫：目前共 11 種海洋生物，依潛水深度分類
     const fishes = [
+        // --- 浮潛及皆可看見的物種 (水深 1-3M) ---
         { 
             name: '克氏雙鋸魚 (小丑魚)', 
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Clown_fish_in_the_Andaman_Reef.jpg/500px-Clown_fish_in_the_Andaman_Reef.jpg', 
@@ -320,6 +321,18 @@
             desc: '【學名】Chaetodon auriga\n【特徵】台灣珊瑚礁最普遍的蝶魚。體側有黑色線條交叉如「人」字，背鰭後方有一個明顯的「假眼斑」。\n【生態】假眼斑的功能是為了欺騙掠食者，讓敵人誤以為那是頭部而攻擊錯誤方向，藉此增加逃生的機會。主要以珊瑚蟲和小型無脊椎動物為食。' 
         },
         { 
+            name: '海月水母', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Aurelia_aurita_%28Moon_jellyfish%29.jpg/500px-Aurelia_aurita_%28Moon_jellyfish%29.jpg', 
+            type: 'snorkeling', 
+            desc: '【學名】Aurelia aurita\n【特徵】身體呈現半透明的圓盤狀，傘體中央有四個明顯的馬蹄形生殖腺（通常呈白色或粉紅色）。\n【生態】常隨著海流漂浮在淺水海域。雖然有刺絲胞，但毒性極弱，對人類通常無害，是許多海龜喜愛的食物。' 
+        },
+        { 
+            name: '黑背蝶魚', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Chaetodon_melannotus_1.jpg/500px-Chaetodon_melannotus_1.jpg', 
+            type: 'snorkeling', 
+            desc: '【學名】Chaetodon melannotus\n【特徵】背部有大面積的黑色斑塊，眼睛部位有黑色條紋穿過，體側常有細緻的斜線。\n【生態】喜愛棲息在陽光充足的淺水鹿角珊瑚礁區，經常成雙成對地出現，主要啃食珊瑚蟲的水螅體。' 
+        },
+        { 
             name: '擬刺尾鯛 (藍倒吊)', 
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Paracanthurus_hepatus_%28Regal_Tang%29.jpg/500px-Paracanthurus_hepatus_%28Regal_Tang%29.jpg', 
             type: 'both', 
@@ -331,6 +344,8 @@
             type: 'both', 
             desc: '【學名】Chelonia mydas\n【保育級別】瀕危物種 (Endangered)\n【特徵】成龜以海藻、海草為主食，由於體內累積了葉綠素，使得其脂肪呈現微綠色，因而得名。\n【生態】小琉球是台灣最容易目擊綠蠵龜的地點。觀察時須嚴格保持 5 公尺以上的安全距離，絕對禁止觸摸、追逐或投餵，違者將面臨野生動物保育法的重罰。' 
         },
+        
+        // --- 深潛專屬物種 (水深 10-25M) ---
         { 
             name: '青點鸚哥魚', 
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Scarus_ghobban_Maldives.JPG/500px-Scarus_ghobban_Maldives.JPG', 
@@ -342,6 +357,24 @@
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Carcharhinus_melanopterus_1.jpg/500px-Carcharhinus_melanopterus_1.jpg', 
             type: 'scuba', 
             desc: '【學名】Carcharhinus melanopterus\n【特徵】各個魚鰭的末端都有明顯的黑色斑塊。體型偏小，通常體長不超過 1.6 公尺。\n【生態】偶爾可在蘭嶼或綠島的深水區見到。雖然名字裡有鯊魚，但牠們生性極度害羞且神經質，極少對人類造成威脅。牠們的存在是珊瑚礁生態系健康的指標。' 
+        },
+        { 
+            name: '鬼蝠魟 (Manta)', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Manta_birostris-Thailand4.jpg/500px-Manta_birostris-Thailand4.jpg', 
+            type: 'scuba', 
+            desc: '【學名】Mobula birostris\n【保育級別】易危物種 (Vulnerable)\n【特徵】體型龐大，翼展可達 7 公尺以上。頭部前方有兩個類似角狀的頭鰭，用於引導水流與浮游生物進入大口中。\n【生態】性情非常溫和的深水濾食性動物。時常在海流強勁的礁岩區出現，會讓小魚（清潔魚）幫忙清理身上的寄生蟲，是潛水員夢寐以求的相遇。' 
+        },
+        { 
+            name: '龍王鯛 (蘇眉魚)', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Cheilinus_undulatus_03.jpg/500px-Cheilinus_undulatus_03.jpg', 
+            type: 'scuba', 
+            desc: '【學名】Cheilinus undulatus\n【保育級別】瀕危物種 (Endangered)\n【特徵】世界上最大的隆頭魚，成魚額頭會明顯凸起，猶如拿破崙的帽子。體色呈鮮豔的藍綠色，並有複雜的網狀紋路。\n【生態】棲息於較深且陡峭的珊瑚礁斜坡。牠們喜歡吃有毒的棘冠海星，是維持珊瑚礁生態平衡的關鍵物種。台灣蘭嶼、綠島海域極為罕見。' 
+        },
+        { 
+            name: '裸胸鯙 (海鰻)', 
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Moray_eel_in_Maldives.jpg/500px-Moray_eel_in_Maldives.jpg', 
+            type: 'scuba', 
+            desc: '【學名】Gymnothorax javanicus\n【特徵】身體修長如蛇，沒有胸鰭與腹鰭。平時會將長長的身體隱藏在礁石的縫隙中，只露出頭部。\n【生態】視力不佳，但嗅覺極其靈敏。牠們時常張開嘴巴呼吸，這並非要攻擊，而是在讓水流通過鰓部。白天大多休息，夜晚才會游出洞穴捕食。' 
         }
     ];
 
@@ -383,29 +416,25 @@
         currentDivingType = type;
         equippedItems.clear();
 
-        // 點選潛水類型後，人物直接切換為對應的精美全身圖片 (修正為 .png)
+        // 點選潛水類型後，人物維持未著裝的狀態 (人物.png)
         const charImg = document.getElementById('character-image');
-        if (type === 'snorkeling') {
-            charImg.src = '浮潛.png';
-            document.getElementById('char-fallback-emoji').innerText = '🤿';
-            document.getElementById('char-fallback-text').innerHTML = '浮潛圖片載入中...<br><span class="text-sm text-gray-500">(請確認 浮潛.png 已下載)</span>';
-        } else if (type === 'scuba') {
-            charImg.src = '深潛.png';
-            document.getElementById('char-fallback-emoji').innerText = '🤿';
-            document.getElementById('char-fallback-text').innerHTML = '深潛圖片載入中...<br><span class="text-sm text-gray-500">(請確認 深潛.png 已下載)</span>';
-        }
+        charImg.src = '人物.png';
+        document.getElementById('char-fallback-emoji').innerText = '🧍';
+        document.getElementById('char-fallback-text').innerHTML = '人物圖片載入中...<br><span class="text-sm text-gray-500">(請確認 人物.png 已下載)</span>';
 
-        // 渲染角色下方的「裝備確認清單」，讓學生學習對應部位
+        // 渲染角色下方的「裝備確認清單」，將裝備卡片放大讓學生看清楚細節
         const gearList = document.getElementById('gear-list');
         const config = gearConfigs[type];
         
         let html = '';
         config.items.forEach(item => {
             html += `
-            <button id="btn-equip-${item.id}" onclick="equipItem('${item.id}')" class="flex items-center gap-3 lg:gap-4 bg-white px-4 lg:px-6 py-2 lg:py-3 rounded-2xl text-base lg:text-xl font-bold shadow-md border-4 border-gray-100 text-slate-700 transition-all hover:scale-105 hover:border-blue-400">
+            <button id="btn-equip-${item.id}" onclick="equipItem('${item.id}')" class="relative flex flex-col items-center gap-2 lg:gap-3 bg-white p-3 lg:p-4 rounded-3xl text-base lg:text-xl font-bold shadow-md border-4 border-gray-100 text-slate-700 transition-all hover:scale-105 hover:border-blue-400">
                 ${item.icon}
                 <span>${item.name}</span>
-                <span class="check-icon hidden text-green-600 ml-2 text-2xl lg:text-3xl">✔</span>
+                <div class="check-icon hidden absolute -top-3 -right-3 bg-green-500 rounded-full p-1.5 shadow-lg border-2 border-white text-white">
+                    <svg class="w-5 h-5 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
+                </div>
             </button>`;
         });
         gearList.innerHTML = html;
@@ -431,6 +460,18 @@
 
         // 檢查是否所有裝備都已確認完畢
         if (equippedItems.size === gearConfigs[currentDivingType].items.length) {
+            // 所有裝備都點擊確認後，人物切換為對應的著裝完畢圖片
+            const charImg = document.getElementById('character-image');
+            if (currentDivingType === 'snorkeling') {
+                charImg.src = '浮潛.png';
+                document.getElementById('char-fallback-emoji').innerText = '🤿';
+                document.getElementById('char-fallback-text').innerHTML = '浮潛圖片載入中...<br><span class="text-sm text-gray-500">(請確認 浮潛.png 已下載)</span>';
+            } else if (currentDivingType === 'scuba') {
+                charImg.src = '深潛.png';
+                document.getElementById('char-fallback-emoji').innerText = '🤿';
+                document.getElementById('char-fallback-text').innerHTML = '深潛圖片載入中...<br><span class="text-sm text-gray-500">(請確認 深潛.png 已下載)</span>';
+            }
+
             const jumpBtn = document.getElementById('jump-btn');
             jumpBtn.disabled = false;
             jumpBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
