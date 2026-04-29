@@ -70,6 +70,11 @@
         .gear-layer {
             transition: opacity 0.4s ease-in-out;
         }
+        
+        /* 去除圖片棋盤格背景的混合模式 */
+        .blend-layer {
+            mix-blend-mode: multiply;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +88,7 @@
         <!-- 台灣地圖容器 -->
         <div id="map-container" class="relative z-10 w-[85%] max-w-[450px] transition-transform duration-500 hover:scale-105">
             <!-- 優先載入真實外部 SVG，如果失敗 (例如在線上沙盒預覽環境)，則觸發 onerror 切換顯示備用地圖 -->
-            <img src="tw.svg" alt="台灣地圖" class="w-full h-auto drop-shadow-2xl" id="primary-map" onerror="this.style.display='none'; document.getElementById('fallback-svg').style.display='block';" />
+            <img src="image_c31000.png" alt="台灣地圖" class="w-full h-auto drop-shadow-2xl" id="primary-map" onerror="this.style.display='none'; document.getElementById('fallback-svg').style.display='block';" />
             
             <!-- 備用的高畫質內嵌 SVG (精心繪製的真實台灣輪廓與離島，不再是米粒) -->
             <svg id="fallback-svg" viewBox="0 0 1000 1000" class="w-full h-auto drop-shadow-2xl" style="display: none;">
@@ -163,11 +168,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- 全身角色與裝備預覽區 -->
                 <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 flex flex-col items-center justify-center relative min-h-[350px]">
-                    <!-- 動態潛水員與裝備圖層 (改用上傳圖片裁切覆蓋) -->
+                    <!-- 動態潛水員與裝備圖層 (改用 img 標籤精準定位) -->
                     <div id="character-container" class="relative w-48 h-[350px] transition-transform duration-300 drop-shadow-xl">
                         <!-- 深潛氣瓶 (在身體後方, z-index: 0) -->
-                        <div id="layer-tank" class="absolute opacity-0 transition-opacity duration-300" style="top: 15%; left: 35%; width: 45%; height: 50%; z-index: 0;">
-                            <div class="w-full h-full bg-no-repeat" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: left bottom; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"></div>
+                        <div id="layer-tank" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-3xl" style="top: 15%; left: 35%; width: 45%; height: 50%; z-index: 0;">
+                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -left-[15%]" />
                         </div>
 
                         <!-- 身體基底 SVG (防寒衣) -->
@@ -199,44 +204,44 @@
                         </svg>
 
                         <!-- 救生衣 -->
-                        <div id="layer-lifejacket" class="absolute opacity-0 transition-opacity duration-300" style="top: 24%; left: 13%; width: 74%; height: 35%; z-index: 20;">
-                            <div class="w-full h-full bg-no-repeat" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_41_02.jpg'); background-size: 200% 100%; background-position: left center; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"></div>
+                        <div id="layer-lifejacket" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-xl" style="top: 24%; left: 13%; width: 74%; height: 35%; z-index: 20;">
+                            <img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -left-[10%]" />
                         </div>
 
                         <!-- 呼吸管 -->
-                        <div id="layer-snorkel" class="absolute opacity-0 transition-opacity duration-300" style="top: 0%; left: 55%; width: 30%; height: 35%; z-index: 25;">
-                            <div class="w-full h-full bg-no-repeat" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: right top; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); transform: rotate(-10deg);"></div>
+                        <div id="layer-snorkel" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer" style="top: 0%; left: 55%; width: 30%; height: 35%; z-index: 25; transform: rotate(-10deg);">
+                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -right-[15%]" />
                         </div>
 
                         <!-- BCD 背心與調節器 -->
-                        <div id="layer-bcd" class="absolute opacity-0 transition-opacity duration-300" style="top: 24%; left: 15%; width: 70%; height: 38%; z-index: 20;">
-                            <div class="w-full h-full bg-no-repeat" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_41_02.jpg'); background-size: 200% 100%; background-position: right center; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"></div>
+                        <div id="layer-bcd" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-xl" style="top: 24%; left: 15%; width: 70%; height: 38%; z-index: 20;">
+                            <img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -right-[10%]" />
                         </div>
 
-                        <!-- 電腦錶 (無對應圖片，維持 SVG 以滿足功能完整性) -->
+                        <!-- 電腦錶 -->
                         <svg id="layer-computer" viewBox="0 0 200 350" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-300" style="z-index: 25;">
                             <rect x="33" y="150" width="16" height="14" fill="#ef4444" rx="2" transform="rotate(-20 40 155)" />
                             <rect x="35" y="152" width="12" height="10" fill="#10b981" rx="1" transform="rotate(-20 40 155)" />
                         </svg>
 
                         <!-- 面鏡 -->
-                        <div id="layer-mask" class="absolute opacity-0 transition-opacity duration-300" style="top: 7%; left: 24%; width: 52%; height: 22%; z-index: 30;">
-                            <div class="w-full h-full bg-no-repeat" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: left top; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"></div>
+                        <div id="layer-mask" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer rounded-lg" style="top: 7%; left: 24%; width: 52%; height: 22%; z-index: 30;">
+                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -left-[15%]" />
                         </div>
 
                         <!-- 蛙鞋 -->
-                        <div id="layer-fins" class="absolute opacity-0 transition-opacity duration-300" style="top: 75%; left: 20%; width: 60%; height: 28%; z-index: 20;">
-                            <div class="w-full h-full bg-no-repeat" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: right bottom; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"></div>
+                        <div id="layer-fins" class="absolute opacity-0 transition-opacity duration-300 overflow-hidden blend-layer" style="top: 75%; left: 20%; width: 60%; height: 28%; z-index: 20;">
+                            <img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -right-[15%]" />
                         </div>
                     </div>
 
                     <!-- 動態產生的裝備清單 -->
-                    <div id="gear-list" class="flex flex-wrap gap-2 justify-center mt-6 w-full px-4">
+                    <div id="gear-list" class="flex flex-wrap gap-3 justify-center mt-6 w-full px-4">
                         <p class="text-gray-400 text-sm font-bold">請於右側選擇潛水方式</p>
                     </div>
                 </div>
                 
-                <!-- 選項區 (改用 SVG 圖示 + 文字) -->
+                <!-- 選項區 -->
                 <div class="flex flex-col gap-4">
                     <!-- 浮潛按鈕 -->
                     <button onclick="pickDivingType('snorkeling')" class="group p-6 border-2 border-blue-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition-all text-left">
@@ -246,16 +251,16 @@
                         </div>
                         <p class="text-gray-600 text-sm mb-4">穿戴救生衣與面鏡，輕鬆在水面欣賞珊瑚礁與海龜。</p>
                         
-                        <!-- 裝備圖文標籤 -->
-                        <div class="flex flex-wrap gap-2">
+                        <!-- 裝備圖文標籤 (修復空白問題) -->
+                        <div class="flex flex-wrap gap-2 mt-3">
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-4 h-4 bg-no-repeat rounded-sm" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: left top;"></div> 面鏡
+                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -left-[15%]" /></div> 面鏡
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-4 h-4 bg-no-repeat rounded-sm" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: right top;"></div> 呼吸管
+                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -right-[15%]" /></div> 呼吸管
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-4 h-4 bg-no-repeat rounded-sm" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_41_02.jpg'); background-size: 200% 100%; background-position: left center;"></div> 救生衣
+                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -left-[10%]" /></div> 救生衣
                             </span>
                         </div>
                     </button>
@@ -268,16 +273,16 @@
                         </div>
                         <p class="text-gray-600 text-sm mb-4">背負氣瓶進入深水區，與魚群共游，探索壯觀的海洋地形。</p>
                         
-                        <!-- 裝備圖文標籤 -->
-                        <div class="flex flex-wrap gap-2">
+                        <!-- 裝備圖文標籤 (修復空白問題) -->
+                        <div class="flex flex-wrap gap-2 mt-3">
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-4 h-4 bg-no-repeat rounded-sm" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_32_54.jpg'); background-size: 200% 200%; background-position: left bottom;"></div> 氣瓶
+                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fbe.jpg" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -left-[15%]" /></div> 氣瓶
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <div class="w-4 h-4 bg-no-repeat rounded-sm" style="background-image: url('ChatGPT Image 2026年4月29日 上午07_41_02.jpg'); background-size: 200% 100%; background-position: right center;"></div> BCD背心
+                                <div class="w-6 h-6 rounded bg-white overflow-hidden relative"><img src="image_c30fa4.jpg" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -right-[10%]" /></div> BCD背心
                             </span>
                             <span class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md text-xs font-bold border border-gray-200 shadow-sm text-slate-700">
-                                <svg viewBox="0 0 24 24" class="w-4 h-4"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg> 電腦錶
+                                <div class="w-6 h-6 rounded flex items-center justify-center"><svg viewBox="0 0 24 24" class="w-5 h-5"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div> 電腦錶
                             </span>
                         </div>
                     </button>
@@ -329,18 +334,18 @@
 </div>
 
 <script>
-    const img1 = "ChatGPT Image 2026年4月29日 上午07_32_54.jpg";
-    const img2 = "ChatGPT Image 2026年4月29日 上午07_41_02.jpg";
+    const img1 = "image_c30fbe.jpg";
+    const img2 = "image_c30fa4.jpg";
 
-    // 裝備圖示改為使用上傳圖片裁切 (CSS 背景定位技巧)
+    // 徹底修復：改用 img 標籤與 overflow-hidden，完美避開背景圖片裁切導致的留白問題！
     const imgIcons = {
-        mask: `<div class="w-6 h-6 rounded-md border border-gray-200 bg-white bg-no-repeat" style="background-image: url('${img1}'); background-size: 200% 200%; background-position: left top;"></div>`,
-        snorkel: `<div class="w-6 h-6 rounded-md border border-gray-200 bg-white bg-no-repeat" style="background-image: url('${img1}'); background-size: 200% 200%; background-position: right top;"></div>`,
-        lifeJacket: `<div class="w-6 h-6 rounded-md border border-gray-200 bg-white bg-no-repeat" style="background-image: url('${img2}'); background-size: 200% 100%; background-position: left center;"></div>`,
-        fins: `<div class="w-6 h-6 rounded-md border border-gray-200 bg-white bg-no-repeat" style="background-image: url('${img1}'); background-size: 200% 200%; background-position: right bottom;"></div>`,
-        tank: `<div class="w-6 h-6 rounded-md border border-gray-200 bg-white bg-no-repeat" style="background-image: url('${img1}'); background-size: 200% 200%; background-position: left bottom;"></div>`,
-        bcd: `<div class="w-6 h-6 rounded-md border border-gray-200 bg-white bg-no-repeat" style="background-image: url('${img2}'); background-size: 200% 100%; background-position: right center;"></div>`,
-        computer: `<svg viewBox="0 0 24 24" class="w-6 h-6 rounded-md border border-gray-200 bg-white"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg>`
+        mask: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -left-[15%]" /></div>`,
+        snorkel: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -top-[15%] -right-[15%]" /></div>`,
+        lifeJacket: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img2}" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -left-[10%]" /></div>`,
+        fins: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -right-[15%]" /></div>`,
+        tank: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img1}" class="absolute max-w-none w-[240%] h-[240%] -bottom-[15%] -left-[15%]" /></div>`,
+        bcd: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white overflow-hidden relative shrink-0 shadow-sm"><img src="${img2}" class="absolute max-w-none w-[220%] h-[120%] top-1/2 -translate-y-1/2 -right-[10%]" /></div>`,
+        computer: `<div class="w-10 h-10 rounded-md border border-gray-200 bg-white flex items-center justify-center shrink-0 shadow-sm"><svg viewBox="0 0 24 24" class="w-7 h-7"><path d="M6 4 L18 4 L18 20 L6 20 Z" fill="#475569"/><rect x="5" y="8" width="14" height="8" rx="1" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/><rect x="7" y="10" width="10" height="4" fill="#10b981"/></svg></div>`
     };
 
     const gearConfigs = {
@@ -442,17 +447,17 @@
         const allLayers = ['layer-tank', 'layer-lifejacket', 'layer-snorkel', 'layer-bcd', 'layer-computer', 'layer-mask', 'layer-fins'];
         allLayers.forEach(id => document.getElementById(id).classList.add('opacity-0'));
 
-        // 2. 渲染角色下方可點擊的裝備按鈕清單
+        // 2. 渲染角色下方可點擊的裝備按鈕清單 (調整了大小和間距)
         const gearList = document.getElementById('gear-list');
         const config = gearConfigs[type];
         
         let html = '';
         config.items.forEach(item => {
             html += `
-            <button id="btn-equip-${item.id}" onclick="equipItem('${item.id}')" class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg text-sm font-bold shadow-md border-2 border-gray-200 text-slate-700 transition-all hover:scale-105 hover:border-blue-400">
+            <button id="btn-equip-${item.id}" onclick="equipItem('${item.id}')" class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl text-base font-bold shadow-md border-2 border-gray-200 text-slate-700 transition-all hover:scale-105 hover:border-blue-400">
                 ${item.icon}
                 <span>${item.name}</span>
-                <span class="check-icon hidden text-green-600 ml-1">✔</span>
+                <span class="check-icon hidden text-green-600 ml-1 text-xl">✔</span>
             </button>`;
         });
         gearList.innerHTML = html;
