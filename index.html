@@ -257,8 +257,10 @@
         <div id="fish-info-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] bg-white rounded-3xl p-8 lg:p-10 shadow-2xl max-w-2xl w-11/12 border-4 border-yellow-400 overflow-hidden">
             <div class="flex flex-col items-center">
                 <div class="w-full h-56 lg:h-72 mb-6 rounded-2xl overflow-hidden bg-blue-100 relative shadow-inner flex items-center justify-center">
-                    <img id="info-image" src="" alt="海洋生物" class="w-full h-full object-cover" onerror="this.style.display='none'; document.getElementById('info-image-fallback').style.display='block';">
-                    <div id="info-image-fallback" class="hidden text-blue-800 font-bold tracking-widest text-xl">⚠️ 網路異常，圖片載入失敗</div>
+                    <img id="info-image" src="" alt="海洋生物" class="w-full h-full object-cover" onerror="this.style.display='none'; document.getElementById('info-image-fallback').style.display='flex';">
+                    <div id="info-image-fallback" class="hidden flex-col items-center justify-center w-full h-full text-center bg-blue-50">
+                        <!-- 動態防呆內容 -->
+                    </div>
                 </div>
                 <h3 id="info-name" class="text-3xl lg:text-4xl font-bold text-blue-900 mb-4">熱帶魚名稱</h3>
                 <div class="w-full max-h-[35vh] overflow-y-auto pr-4 mb-6 custom-scrollbar">
@@ -305,41 +307,53 @@
         }
     };
 
-    // 升級生物資料庫：目前共 11 種海洋生物，依潛水深度分類
+    // 升級生物資料庫：加入 emoji 與 shortName 作為圖片失效時的防呆辨識
     const fishes = [
         // --- 浮潛及皆可看見的物種 (水深 1-3M) ---
         { 
             name: '克氏雙鋸魚 (小丑魚)', 
+            shortName: '小丑魚',
+            emoji: '🐠',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Clown_fish_in_the_Andaman_Reef.jpg/500px-Clown_fish_in_the_Andaman_Reef.jpg', 
             type: 'snorkeling', 
             desc: '【學名】Amphiprion clarkii\n【特徵】身體有三條明顯的白色條紋。屬於「母系社會」，群體中體型最大的是雌魚，若雌魚死亡，最大的雄魚會性轉變為雌魚。\n【生態】與海葵互利共生。海葵的刺絲胞能保護小丑魚免受掠食者攻擊，而小丑魚則會幫海葵清理殘渣並趕走吃海葵的魚類。' 
         },
         { 
             name: '揚幡蝴蝶魚 (人字蝶)', 
+            shortName: '人字蝶',
+            emoji: '🦋',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Chaetodon_auriga_in_Hurghada_1.JPG/500px-Chaetodon_auriga_in_Hurghada_1.JPG', 
             type: 'snorkeling', 
             desc: '【學名】Chaetodon auriga\n【特徵】台灣珊瑚礁最普遍的蝶魚。體側有黑色線條交叉如「人」字，背鰭後方有一個明顯的「假眼斑」。\n【生態】假眼斑的功能是為了欺騙掠食者，讓敵人誤以為那是頭部而攻擊錯誤方向，藉此增加逃生的機會。主要以珊瑚蟲和小型無脊椎動物為食。' 
         },
         { 
             name: '海月水母', 
+            shortName: '水母',
+            emoji: '🪼',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Aurelia_aurita_%28Moon_jellyfish%29.jpg/500px-Aurelia_aurita_%28Moon_jellyfish%29.jpg', 
             type: 'snorkeling', 
             desc: '【學名】Aurelia aurita\n【特徵】身體呈現半透明的圓盤狀，傘體中央有四個明顯的馬蹄形生殖腺（通常呈白色或粉紅色）。\n【生態】常隨著海流漂浮在淺水海域。雖然有刺絲胞，但毒性極弱，對人類通常無害，是許多海龜喜愛的食物。' 
         },
         { 
             name: '黑背蝶魚', 
+            shortName: '黑背蝶',
+            emoji: '🐟',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Chaetodon_melannotus_1.jpg/500px-Chaetodon_melannotus_1.jpg', 
             type: 'snorkeling', 
             desc: '【學名】Chaetodon melannotus\n【特徵】背部有大面積的黑色斑塊，眼睛部位有黑色條紋穿過，體側常有細緻的斜線。\n【生態】喜愛棲息在陽光充足的淺水鹿角珊瑚礁區，經常成雙成對地出現，主要啃食珊瑚蟲的水螅體。' 
         },
         { 
             name: '擬刺尾鯛 (藍倒吊)', 
+            shortName: '藍倒吊',
+            emoji: '🐟',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Paracanthurus_hepatus_%28Regal_Tang%29.jpg/500px-Paracanthurus_hepatus_%28Regal_Tang%29.jpg', 
             type: 'both', 
             desc: '【學名】Paracanthurus hepatus\n【特徵】因電影《海底總動員》的「多莉」而聞名。全身呈現鮮豔的湛藍色，搭配黑色紋路與亮黃色的尾鰭。\n【生態】屬於刺尾鯛科，牠們的尾柄兩側藏有如手術刀般鋒利的硬棘，遇到危險時會立起防禦，因此潛水時千萬不可隨意伸手觸摸，以免割傷。' 
         },
         { 
             name: '綠蠵龜', 
+            shortName: '綠蠵龜',
+            emoji: '🐢',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Green_sea_turtle_in_shallow_water.jpg/500px-Green_sea_turtle_in_shallow_water.jpg', 
             type: 'both', 
             desc: '【學名】Chelonia mydas\n【保育級別】瀕危物種 (Endangered)\n【特徵】成龜以海藻、海草為主食，由於體內累積了葉綠素，使得其脂肪呈現微綠色，因而得名。\n【生態】小琉球是台灣最容易目擊綠蠵龜的地點。觀察時須嚴格保持 5 公尺以上的安全距離，絕對禁止觸摸、追逐或投餵，違者將面臨野生動物保育法的重罰。' 
@@ -348,30 +362,40 @@
         // --- 深潛專屬物種 (水深 10-25M) ---
         { 
             name: '青點鸚哥魚', 
+            shortName: '鸚哥魚',
+            emoji: '🐡',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Scarus_ghobban_Maldives.JPG/500px-Scarus_ghobban_Maldives.JPG', 
             type: 'scuba', 
             desc: '【學名】Scarus ghobban\n【特徵】牙齒癒合成像鸚鵡一樣的堅硬鳥喙狀。晚上睡覺時，會從口中吐出黏液結成透明的「防護繭」包覆全身，以防範掠食者和寄生蟲。\n【生態】珊瑚礁的「清道夫」。牠們會啃食附著在死珊瑚上的藻類，並將咬碎的珊瑚骨骼消化後排泄出來，這正是熱帶美麗白沙灘的重要來源之一。' 
         },
         { 
             name: '黑鰭礁鯊', 
+            shortName: '礁鯊',
+            emoji: '🦈',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Carcharhinus_melanopterus_1.jpg/500px-Carcharhinus_melanopterus_1.jpg', 
             type: 'scuba', 
             desc: '【學名】Carcharhinus melanopterus\n【特徵】各個魚鰭的末端都有明顯的黑色斑塊。體型偏小，通常體長不超過 1.6 公尺。\n【生態】偶爾可在蘭嶼或綠島的深水區見到。雖然名字裡有鯊魚，但牠們生性極度害羞且神經質，極少對人類造成威脅。牠們的存在是珊瑚礁生態系健康的指標。' 
         },
         { 
             name: '鬼蝠魟 (Manta)', 
+            shortName: '鬼蝠魟',
+            emoji: '🦇',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Manta_birostris-Thailand4.jpg/500px-Manta_birostris-Thailand4.jpg', 
             type: 'scuba', 
             desc: '【學名】Mobula birostris\n【保育級別】易危物種 (Vulnerable)\n【特徵】體型龐大，翼展可達 7 公尺以上。頭部前方有兩個類似角狀的頭鰭，用於引導水流與浮游生物進入大口中。\n【生態】性情非常溫和的深水濾食性動物。時常在海流強勁的礁岩區出現，會讓小魚（清潔魚）幫忙清理身上的寄生蟲，是潛水員夢寐以求的相遇。' 
         },
         { 
             name: '龍王鯛 (蘇眉魚)', 
+            shortName: '龍王鯛',
+            emoji: '🐋',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Cheilinus_undulatus_03.jpg/500px-Cheilinus_undulatus_03.jpg', 
             type: 'scuba', 
             desc: '【學名】Cheilinus undulatus\n【保育級別】瀕危物種 (Endangered)\n【特徵】世界上最大的隆頭魚，成魚額頭會明顯凸起，猶如拿破崙的帽子。體色呈鮮豔的藍綠色，並有複雜的網狀紋路。\n【生態】棲息於較深且陡峭的珊瑚礁斜坡。牠們喜歡吃有毒的棘冠海星，是維持珊瑚礁生態平衡的關鍵物種。台灣蘭嶼、綠島海域極為罕見。' 
         },
         { 
             name: '裸胸鯙 (海鰻)', 
+            shortName: '海鰻',
+            emoji: '🐍',
             img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Moray_eel_in_Maldives.jpg/500px-Moray_eel_in_Maldives.jpg', 
             type: 'scuba', 
             desc: '【學名】Gymnothorax javanicus\n【特徵】身體修長如蛇，沒有胸鰭與腹鰭。平時會將長長的身體隱藏在礁石的縫隙中，只露出頭部。\n【生態】視力不佳，但嗅覺極其靈敏。牠們時常張開嘴巴呼吸，這並非要攻擊，而是在讓水流通過鰓部。白天大多休息，夜晚才會游出洞穴捕食。' 
@@ -554,10 +578,15 @@
         imgEl.src = data.img;
         imgEl.className = 'w-full h-full object-cover';
         
-        // 若圖片真的載入失敗，隱藏圖片並顯示圖示
+        // 若圖片真的載入失敗，隱藏圖片並顯示專屬圖示與名稱 (防呆優化)
         imgEl.onerror = function() {
             this.style.display = 'none';
-            fishEl.innerHTML = '<span class="text-3xl">🐟</span>';
+            fishEl.innerHTML = `
+                <div class="flex flex-col items-center justify-center w-full h-full bg-blue-900/60 p-2 text-center rounded-full">
+                    <span class="text-4xl lg:text-5xl drop-shadow-md">${data.emoji}</span>
+                    <span class="text-xs lg:text-sm font-bold text-white mt-1 leading-tight" style="text-shadow: 1px 1px 2px black;">${data.shortName}</span>
+                </div>
+            `;
         };
         
         fishEl.appendChild(imgEl);
@@ -585,10 +614,20 @@
     function showFishInfo(data) {
         // 重置圖片顯示狀態 (預防前一次破圖導致隱藏)
         const imgEl = document.getElementById('info-image');
+        const fallbackEl = document.getElementById('info-image-fallback');
+        
         imgEl.style.display = 'block';
-        document.getElementById('info-image-fallback').style.display = 'none';
+        fallbackEl.style.display = 'none';
         
         imgEl.src = data.img;
+        
+        // 同步更新圖鑑內的防呆畫面 (帶入該生物的名稱與圖示)
+        fallbackEl.innerHTML = `
+            <span class="text-6xl lg:text-8xl mb-4 opacity-80">${data.emoji}</span>
+            <span class="text-blue-800 font-bold tracking-widest text-xl">⚠️ 圖片載入受限</span>
+            <span class="text-gray-600 mt-2 font-bold text-lg">${data.name}</span>
+        `;
+
         document.getElementById('info-name').innerText = data.name;
         document.getElementById('info-desc').innerText = data.desc;
         document.getElementById('fish-info-modal').classList.remove('hidden');
